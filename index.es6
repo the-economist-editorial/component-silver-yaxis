@@ -1,6 +1,5 @@
 // Disable prefer-reflect, for D3 axis.call()
 /* eslint-disable prefer-reflect */
-
 import React from 'react';
 import Dthree from 'D3';
 
@@ -62,11 +61,10 @@ export default class SilverYaxis extends React.Component {
 
   getAxisGroupTransformString() {
     let width = 0;
-    width = width;
     if (this.props.config.orient === 'right') {
       width = this.props.config.bounds.width;
     }
-    return 'translate({width}, 0)';
+    return `translate(${width}, 0)`;
   }
 
   // UPDATE Y-AXIS
