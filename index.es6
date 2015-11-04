@@ -21,42 +21,36 @@ export default class SilverYaxis extends React.Component {
     };
   }
 
-  // CONSTRUCTOR
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  componentWillMount() {
-  }
-
   // COMPONENT DID MOUNT
   componentDidMount() {
-    this.setYaxisConfig();
-    this.updateYaxis();
+    const yAxis = this.setYaxisConfig();
+    this.updateYaxis(yAxis);
   }
 
   // COMPONENT DID UPDATE
   componentDidUpdate() {
-    this.setYaxisConfig();
-    this.updateYaxis();
+    // this.setYaxisConfig();
+    // this.updateYaxis();
+    const yAxis = this.setYaxisConfig();
+    this.updateYaxis(yAxis);
   }
 
-  // GET X-AXIS CONFIG
-
+  // SET X-AXIS CONFIG
   setYaxisConfig() {
+    const yAxis = this.props.axis;
     const config = this.props.config;
     const yScale = config.scale;
     const orient = config.orient;
     const tickSize = config.tickSize;
-    this.props.axis
+    yAxis
       .scale(yScale)
       .orient(orient)
       .tickPadding(5)
-      // Ticks need to be at an appropriate 'density', rather than a fixed number...
+      // To come: ticks need to be at an appropriate 'density',
+      // rather than a fixed number...
       .ticks(5)
       .tickSize(tickSize);
+    return yAxis;
   }
 
   getAxisGroupTransformString() {
@@ -69,26 +63,17 @@ export default class SilverYaxis extends React.Component {
 
   // UPDATE Y-AXIS
   // Called directly on the DOM to update the axis
- updateYaxis() {
+ updateYaxis(yAxis) {
    const axisGroup = Dthree.select('.d3-yaxis-group');
    const duration = this.props.config.duration;
    const transform = this.getAxisGroupTransformString();
-    // I'm trying to chain the transitions if the axis moves
-    // from bottom to top, as well as changing scale. This
-    // is only partly successful, because I also need to address
-    // the orientation (top/bottom), which flips the ticks and strings...
    axisGroup
      .transition().duration(duration)
      .attr('transform', transform)
-       .transition().delay(duration).duration(duration)
-       .call(this.props.axis)
+       // There may be circumstances where I want to set a delay...
+       .transition().delay(0).duration(duration)
+      .call(yAxis)
        ;
-    // Failed attempt at separating re-orientation from move...
-    // this.props.axis.orient(this.props.config.orient);
-    // axisGroup
-    //  .transition().delay(duration*3).duration(duration)
-    //     .call(this.props.axis)
-        // ;
  }
 
   // RENDER
