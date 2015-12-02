@@ -1,13 +1,17 @@
 /* Chart y-axis */
 
-.d3-yaxis-group path, .d3-yaxis-group line {
+/* Actual ticks */
+.d3-yaxis-group line {
   fill: none;
   stroke: #000000;
   stroke-width: .3px;
 }
+
+/* No 'domain' path */
 .d3-yaxis-group path {
-  /*display:none;*/
+  display:none;
 }
+
 .d3-yaxis-group text {
   font-family: 'OfficinaSanITC-Book';
   font-size: 7px;
