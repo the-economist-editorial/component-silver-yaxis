@@ -1,4 +1,9 @@
-/* Chart y-axis */
+/*
+    Chart y-axis
+    These are minimal default values only,
+    potentially over-ridden further up the chain.
+    This file should probably be ignored...
+*/
 
 /* Actual ticks */
 .d3-yaxis-group line {
@@ -12,6 +17,7 @@
   display:none;
 }
 
+/* Axis labels */
 .d3-yaxis-group text {
   font-family: 'OfficinaSanITC-Book';
   font-size: 7px;

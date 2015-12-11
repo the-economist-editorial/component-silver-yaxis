@@ -29,30 +29,46 @@ export default class SilverYaxis extends React.Component {
 
   // COMPONENT DID UPDATE
   componentDidUpdate() {
-    // this.setYaxisConfig();
-    // this.updateYaxis();
     const yAxis = this.setYaxisConfig();
     this.updateYaxis(yAxis);
   }
 
-  // SET X-AXIS CONFIG
+  // SET Y-AXIS CONFIG
   setYaxisConfig() {
     const yAxis = this.props.axis;
     const config = this.props.config;
+    // Scale function:
     const yScale = config.scale;
+    // Tick density:
+    const tickDensity = config.tickDensity;
+    // Padding between labels and tick-ends:
+    const tickPadding = config.tickPadding;
+    // Left or right:
     const orient = config.orient;
-    const tickSize = config.tickSize;
+    // Tick length
+    let tickLength = config.tickLength;
+    // NOTE: do I need this? I assume r/h scale works like
+    // x-axis top...
+    // If axis at top, tickLength is neg value:
+    if (orient === 'right') {
+      tickLength = -tickLength;
+    }
     yAxis
       .scale(yScale)
       .orient(orient)
-      .tickPadding(5)
-      // To come: ticks need to be at an appropriate 'density',
-      // rather than a fixed number...
-      .ticks(5)
-      .tickSize(tickSize);
+      // Gap between labels and ticks
+      .tickPadding(tickPadding)
+      // Number of ticks
+      .ticks(tickDensity)
+      // Tick length
+      .tickSize(tickLength);
     return yAxis;
   }
+  // SET Y-AXIS CONFIG ends
 
+  // GET AXIS GROUP TRANSFORM STRING
+  // Called from updateYAxis. Returns string that determines
+  // whether axis is drawn left/right
   getAxisGroupTransformString() {
     let width = 0;
     if (this.props.config.orient === 'right') {
@@ -60,6 +76,7 @@ export default class SilverYaxis extends React.Component {
     }
     return `translate(${width}, 0)`;
   }
+  // GET AXIS GROUP TRANSFORM STRING ends
 
   // UPDATE Y-AXIS
   // Called directly on the DOM to update the axis
@@ -76,11 +93,10 @@ export default class SilverYaxis extends React.Component {
        ;
  }
 
-  // RENDER
+  // RENDER axis group
   render() {
-    // Axis group
     return (
-      <g className="d3-yaxis-group" ref="axisGrouproup"/>
+      <g className="d3-yaxis-group"/>
     );
   }
 }
